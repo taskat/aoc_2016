@@ -1,12 +1,15 @@
 use std::process;
 
-use crate::common::Config;
+use common::Config;
+
+use crate::common::EnvConfig;
 
 mod common;
 mod day1;
+mod day2;
 
 fn main() {
-    let config = Config::new().unwrap_or_else(|err| {
+    let config = EnvConfig::new().unwrap_or_else(|err| {
         println!("Problem parsing arguments: {}", err);
         process::exit(1);
     });

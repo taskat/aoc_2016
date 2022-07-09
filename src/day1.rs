@@ -1,4 +1,4 @@
-use std::{fmt::Display, collections::HashMap};
+use std::{collections::HashMap, fmt::Display};
 
 use crate::common;
 
@@ -135,7 +135,7 @@ impl Coord {
 struct Me {
     dir: Direction,
     pos: Coord,
-    visited: HashMap<Coord, i32>
+    visited: HashMap<Coord, i32>,
 }
 
 impl Me {
@@ -156,10 +156,40 @@ impl Me {
         self.dir = self.dir.turn(ins.turn);
         for _ in 0..ins.amount {
             if let Some(_) = self.visited.insert(self.pos, 1) {
-                return Some(())
+                return Some(());
             }
             self.pos.step(1, &self.dir);
-        };
+        }
         None
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::common::common_test::FakeConfig;
+    use crate::common::{read_input, Data, Puzzle};
+
+    #[test]
+    fn part_1() {
+        let cases = vec![
+            (Data::Test(1), "5"),
+            (Data::Test(2), "2"),
+            (Data::Real, "209"),
+        ];
+        for case in cases {
+            let solution =
+                crate::day1::Puzzle {}.part_1(read_input(&FakeConfig::new(1, 1, case.0)).unwrap());
+            assert_eq!(solution, case.1);
+        }
+    }
+
+    #[test]
+    fn part_2() {
+        let cases = vec![(Data::Test(3), "4"), (Data::Real, "136")];
+        for case in cases {
+            let solution =
+                crate::day1::Puzzle {}.part_2(read_input(&FakeConfig::new(1, 1, case.0)).unwrap());
+            assert_eq!(solution, case.1);
+        }
     }
 }

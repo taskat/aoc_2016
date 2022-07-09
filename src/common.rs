@@ -1,7 +1,8 @@
 use std::{env, fmt::Display, fs, io};
 
-use crate::day1;
+use crate::{day1, day2};
 
+#[derive(Copy, Clone)]
 pub enum Data {
     Real,
     Test(i32),
@@ -16,20 +17,20 @@ impl Display for Data {
     }
 }
 
-pub struct Config {
-    day: i32,
-    part: i32,
-    data: Data,
+pub trait Config {
+    fn get_day(&self) -> i32;
+    fn get_part(&self) -> i32;
+    fn get_data_type(&self) -> Data;
 }
 
-impl Config {
-    pub fn get_day(&self) -> i32 {
-        self.day
-    }
-    pub fn get_part(&self) -> i32 {
-        self.part
-    }
-    pub fn new() -> Result<Config, String> {
+pub struct EnvConfig {
+    day: i32,
+    part: i32,
+    data_type: Data,
+}
+
+impl EnvConfig {
+    pub fn new() -> Result<EnvConfig, String> {
         let args: Vec<String> = env::args().collect();
         if args.len() != 4 {
             return Err(String::from("Invalid number of arguments, wanted 4, got ")
@@ -64,20 +65,34 @@ impl Config {
                 Err(e) => return Err(String::from("Fourth parameter must be 'real' or i32: ") + e.to_string().as_str())
             }
         };
-        Ok(Config {
+        Ok(EnvConfig {
             day: day,
             part: part,
-            data: data,
+            data_type: data,
         })
     }
 }
 
-pub fn read_input(config: &Config) -> Result<String, io::Error> {
-    let suffix = match config.data {
+impl Config for EnvConfig {
+    fn get_day(&self) -> i32 {
+        self.day
+    }
+
+    fn get_part(&self) -> i32 {
+        self.part
+    }
+
+    fn get_data_type(&self) -> Data {
+        self.data_type
+    }
+}
+
+pub fn read_input(config: &impl Config) -> Result<String, io::Error> {
+    let suffix = match config.get_data_type() {
         Data::Real => String::from(""),
         Data::Test(number) => number.to_string(),
     };
-    let filepath = format!("inputs/day{}/data{}.txt", config.day, suffix);
+    let filepath = format!("inputs/day{}/data{}.txt", config.get_day(), suffix);
     fs::read_to_string(filepath)
 }
 
@@ -86,14 +101,46 @@ pub trait Puzzle {
     fn part_2(&self, input: String) -> String;
 }
 
-pub fn solve(input: String, config: &Config) -> String {
-    let solver = match config.day {
-        1 => day1::Puzzle{},
+pub fn solve(input: String, config: &EnvConfig) -> String {
+    let solver: Box<dyn Puzzle> = match config.day {
+        1 => Box::new(day1::Puzzle{}),
+        2 => Box::new(day2::Puzzle{}),
         n => panic!("Day {} not implemented yet", n),
     };
     match config.get_part() {
         1 => solver.part_1(input),
         2 => solver.part_2(input),
         p => panic!("Invalid part {}", p)
+    }
+}
+
+#[cfg(test)]
+pub mod common_test {
+    use super::{Config, Data};
+
+    pub struct FakeConfig {
+        day: i32,
+        part: i32, 
+        data_type: Data,
+    }
+
+    impl FakeConfig {
+        pub fn new(day: i32, part: i32, data_type: Data) -> FakeConfig {
+            FakeConfig{day, part, data_type}
+        }
+    }
+
+    impl Config for FakeConfig {
+        fn get_day(&self) -> i32 {
+            self.day
+        }
+    
+        fn get_part(&self) -> i32 {
+            self.part
+        }
+    
+        fn get_data_type(&self) -> Data {
+            self.data_type
+        }
     }
 }
