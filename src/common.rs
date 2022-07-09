@@ -1,5 +1,6 @@
 use std::{env, fmt::Display, fs, io};
 
+use crate::day1;
 
 pub enum Data {
     Real,
@@ -87,6 +88,7 @@ pub trait Puzzle {
 
 pub fn solve(input: String, config: &Config) -> String {
     let solver = match config.day {
+        1 => day1::Puzzle{},
         n => panic!("Day {} not implemented yet", n),
     };
     match config.get_part() {
