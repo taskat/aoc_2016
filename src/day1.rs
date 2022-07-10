@@ -188,7 +188,7 @@ mod tests {
         let cases = vec![(Data::Test(3), "4"), (Data::Real, "136")];
         for case in cases {
             let solution =
-                crate::day1::Puzzle {}.part_2(read_input(&FakeConfig::new(1, 1, case.0)).unwrap());
+                crate::day1::Puzzle {}.part_2(read_input(&FakeConfig::new(1, 2, case.0)).unwrap());
             assert_eq!(solution, case.1);
         }
     }
