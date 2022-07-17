@@ -21,7 +21,7 @@ mod tests {
         let cases: Vec<(Data, &str)> = vec![];
         for case in cases {
             let solution =
-                crate::day::Puzzle {}.part_1(read_input(&FakeConfig::new(0, 1, case.0)).unwrap());
+                crate::day__::Puzzle {}.part_1(read_input(&FakeConfig::new(__, 1, case.0)).unwrap());
             assert_eq!(solution, case.1);
         }
     }
@@ -31,7 +31,7 @@ mod tests {
         let cases: Vec<(Data, &str)> = vec![];
         for case in cases {
             let solution =
-                crate::day::Puzzle {}.part_2(read_input(&FakeConfig::new(0, 2, case.0)).unwrap());
+                crate::day__::Puzzle {}.part_2(read_input(&FakeConfig::new(__, 2, case.0)).unwrap());
             assert_eq!(solution, case.1);
         }
     }
