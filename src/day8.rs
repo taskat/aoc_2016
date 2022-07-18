@@ -25,16 +25,12 @@ impl common::Puzzle for Puzzle {
 }
 
 struct Screen {
-    width: usize,
-    height: usize,
     display: Vec<Vec<bool>>,
 }
 
 impl Screen {
     fn new(row: usize, col: usize) -> Screen {
         Screen {
-            width: col,
-            height: row,
             display: vec![vec![false; col]; row],
         }
     }
