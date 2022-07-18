@@ -3,7 +3,7 @@ set -e;
 
 add_input() {
     cd inputs;
-    CURRENT=$(ls -la | head -n 1 | cut -d ' ' -f2);
+    CURRENT=$(($(ls -la | wc -l) -  3));
     DIRNAME="day$((CURRENT + 1))";
     mkdir $DIRNAME;
     cd $DIRNAME;
