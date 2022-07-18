@@ -13,6 +13,7 @@ mod day5;
 mod day6;
 mod day7;
 mod day8;
+mod day9;
 
 fn main() {
     let config = EnvConfig::new().unwrap_or_else(|err| {
