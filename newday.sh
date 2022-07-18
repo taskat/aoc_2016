@@ -1,4 +1,6 @@
 #!/bin/bash
+set -e;
+
 add_input() {
     cd inputs;
     CURRENT=$(ls -la | head -n 1 | cut -d ' ' -f2);
@@ -45,3 +47,4 @@ add_input;
 create_mod;
 add_mod_decl;
 use_mod;
+echo "Succesfully created new day";
