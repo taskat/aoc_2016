@@ -4,19 +4,34 @@ use crate::common;
 
 pub struct Puzzle {}
 
+const DEFAULT_SEARCH: Search = Search(61, 17);
+
 impl common::Puzzle for Puzzle {
-    fn part_1(&self, input: String, _extra_param: Option<Box<dyn Any>>) -> String {
+    fn part_1(&self, input: String, extra_param: Option<Box<dyn Any>>) -> String {
+        let search: Search = match extra_param {
+            Some(b) => (*b.downcast_ref::<Search>().unwrap()).clone(),
+            None => DEFAULT_SEARCH,
+        };
         let mut factory = Factory::new(input);
-        factory.work([61, 17]).unwrap().to_string()
+        factory.work(search).unwrap().to_string()
     }
     fn part_2(&self, input: String, _extra_param: Option<Box<dyn Any>>) -> String {
         let mut factory = Factory::new(input);
-        factory.work([-1, -1]);
+        factory.work(Search(-1, -1));
         let mut product = 1;
         for i in 0..3 {
             product *= factory.get_output(&i).chips[0];
         }
         product.to_string()
+    }
+}
+
+#[derive(Clone, Copy)]
+struct Search(i32, i32);
+
+impl Search {
+    fn contains(&self, value: &i32) -> bool {
+        self.0 == *value || self.1 == *value
     }
 }
 
@@ -50,7 +65,7 @@ impl Factory {
         f
     }
 
-    fn work(&mut self, search: [i32; 2]) -> Option<i32> {
+    fn work(&mut self, search: Search) -> Option<i32> {
         while let Ok(bot_number) = self.find_next() {
             let result = self.get_bot(&bot_number).work().unwrap();
             if search.contains(&result[0].chip) && search.contains(&result[1].chip) {
@@ -261,22 +276,31 @@ impl Bin for Bot {
 
 #[cfg(test)]
 mod tests {
+    use std::any::Any;
+
     use crate::common::common_test::FakeConfig;
     use crate::common::{read_input, Data, Puzzle};
 
+    use super::Search;
+
     #[test]
     fn part_1() {
-        let cases: Vec<(Data, &str)> = vec![];
+        let cases: Vec<(Data, &str, Option<Box<dyn Any>>)> = vec![
+            (Data::Test(1), "2", Some(Box::new(Search(2, 5)))),
+            (Data::Real, "86", None)
+        ];
         for case in cases {
             let solution = crate::day10::Puzzle {}
-                .part_1(read_input(&FakeConfig::new(10, 1, case.0)).unwrap(), None);
+                .part_1(read_input(&FakeConfig::new(10, 1, case.0)).unwrap(), case.2);
             assert_eq!(solution, case.1);
         }
     }
 
     #[test]
     fn part_2() {
-        let cases: Vec<(Data, &str)> = vec![];
+        let cases: Vec<(Data, &str)> = vec![
+            (Data::Real, "22847")
+        ];
         for case in cases {
             let solution = crate::day10::Puzzle {}
                 .part_2(read_input(&FakeConfig::new(10, 2, case.0)).unwrap(), None);
