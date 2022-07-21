@@ -1,14 +1,14 @@
-use std::str::Chars;
+use std::{any::Any, str::Chars};
 
 use crate::common;
 
 pub struct Puzzle {}
 
 impl common::Puzzle for Puzzle {
-    fn part_1(&self, input: String) -> String {
+    fn part_1(&self, input: String, _extra_param: Option<Box<dyn Any>>) -> String {
         decompress_once(input).len().to_string()
     }
-    fn part_2(&self, input: String) -> String {
+    fn part_2(&self, input: String, _extra_param: Option<Box<dyn Any>>) -> String {
         decompress_full(input).to_string()
     }
 }
@@ -21,10 +21,10 @@ fn decompress_once(input: String) -> String {
             '(' => {
                 let marker = get_marker(&mut chars);
                 result += &marker.decompress_once(&mut chars);
-            },
+            }
             c => result.push(c),
         }
-    };
+    }
     result
 }
 
@@ -36,10 +36,10 @@ fn decompress_full(input: String) -> usize {
             '(' => {
                 let marker = get_marker(&mut chars);
                 len += &marker.decompress_full(&mut chars);
-            },
+            }
             _ => len += 1,
         }
-    }; 
+    }
     len
 }
 
@@ -50,14 +50,14 @@ fn get_marker(input: &mut Chars<'_>) -> Marker {
             ')' => return Marker::new(marker),
             c => marker.push(c),
         };
-    };
+    }
     panic!("Marker not finished!");
 }
 
 #[derive(Debug)]
 struct Marker {
     length: usize,
-    repeat: usize
+    repeat: usize,
 }
 
 impl Marker {
@@ -65,7 +65,7 @@ impl Marker {
         let mut parts = input.split('x');
         let length = parts.next().unwrap().parse::<usize>().unwrap();
         let repeat = parts.next().unwrap().parse::<usize>().unwrap();
-        Marker {length, repeat}
+        Marker { length, repeat }
     }
 
     fn decompress_once(&self, chars: &mut Chars<'_>) -> String {
@@ -102,8 +102,8 @@ mod tests {
             (Data::Real, "107035"),
         ];
         for case in cases {
-            let solution =
-                crate::day9::Puzzle {}.part_1(read_input(&FakeConfig::new(9, 1, case.0)).unwrap());
+            let solution = crate::day9::Puzzle {}
+                .part_1(read_input(&FakeConfig::new(9, 1, case.0)).unwrap(), None);
             assert_eq!(solution, case.1);
         }
     }
@@ -118,8 +118,8 @@ mod tests {
             (Data::Real, "11451628995"),
         ];
         for case in cases {
-            let solution =
-                crate::day9::Puzzle {}.part_2(read_input(&FakeConfig::new(9, 2, case.0)).unwrap());
+            let solution = crate::day9::Puzzle {}
+                .part_2(read_input(&FakeConfig::new(9, 2, case.0)).unwrap(), None);
             assert_eq!(solution, case.1);
         }
     }

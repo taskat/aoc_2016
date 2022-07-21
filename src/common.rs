@@ -1,4 +1,4 @@
-use std::{env, fmt::Display, fs, io};
+use std::{env, fmt::Display, fs, io, any::Any};
 
 use crate::{day1, day2, day3, day4, day5, day6, day7, day8, day9, day10};
 
@@ -97,8 +97,8 @@ pub fn read_input(config: &impl Config) -> Result<String, io::Error> {
 }
 
 pub trait Puzzle {
-    fn part_1(&self, input: String) -> String;
-    fn part_2(&self, input: String) -> String;
+    fn part_1(&self, input: String, extra_param: Option<Box<dyn Any>>) -> String;
+    fn part_2(&self, input: String, extra_param: Option<Box<dyn Any>>) -> String;
 }
 
 pub fn solve(input: String, config: &EnvConfig) -> String {
@@ -116,8 +116,8 @@ pub fn solve(input: String, config: &EnvConfig) -> String {
         n => panic!("Day {} not implemented yet", n),
     };
     match config.get_part() {
-        1 => solver.part_1(input),
-        2 => solver.part_2(input),
+        1 => solver.part_1(input, None),
+        2 => solver.part_2(input, None),
         p => panic!("Invalid part {}", p)
     }
 }

@@ -1,21 +1,23 @@
+use std::any::Any;
+
 use crate::common;
 
 pub struct Puzzle {}
 
 impl common::Puzzle for Puzzle {
-    fn part_1(&self, input: String) -> String {
+    fn part_1(&self, input: String, _extra_param: Option<Box<dyn Any>>) -> String {
         input
             .split("\r\n")
             .filter(|line| support_tls(line))
             .count()
             .to_string()
     }
-    fn part_2(&self, input: String) -> String {
+    fn part_2(&self, input: String, _extra_param: Option<Box<dyn Any>>) -> String {
         input
-        .split("\r\n")
-        .filter(|line| support_ssl(line))
-        .count()
-        .to_string()
+            .split("\r\n")
+            .filter(|line| support_ssl(line))
+            .count()
+            .to_string()
     }
 }
 
@@ -33,7 +35,7 @@ fn support_tls(line: &str) -> bool {
                 has_abba = true;
             }
         }
-    };
+    }
     has_abba
 }
 
@@ -73,9 +75,7 @@ fn support_ssl(line: &str) -> bool {
     let abas = get_abas(supernet);
     let real_babs = get_abas(hypernet);
     let expected_babs = convert_aba_to_bab(abas);
-    real_babs.iter().any(|bab| {
-        expected_babs.contains(bab)
-    })
+    real_babs.iter().any(|bab| expected_babs.contains(bab))
 }
 
 fn convert_aba_to_bab(abas: Vec<String>) -> Vec<String> {
@@ -100,7 +100,7 @@ fn get_abas(words: Vec<&str>) -> Vec<String> {
         }
         for i in 0..=chars.len() - 3 {
             if is_aba(&chars[i..i + 3]) {
-                abas.push(chars[i..i+3].iter().collect::<String>());
+                abas.push(chars[i..i + 3].iter().collect::<String>());
             }
         }
     }
@@ -118,26 +118,20 @@ mod tests {
 
     #[test]
     fn part_1() {
-        let cases: Vec<(Data, &str)> = vec![
-            (Data::Test(1), "2"),
-            (Data::Real, "118")
-        ];
+        let cases: Vec<(Data, &str)> = vec![(Data::Test(1), "2"), (Data::Real, "118")];
         for case in cases {
-            let solution =
-                crate::day7::Puzzle {}.part_1(read_input(&FakeConfig::new(7, 1, case.0)).unwrap());
+            let solution = crate::day7::Puzzle {}
+                .part_1(read_input(&FakeConfig::new(7, 1, case.0)).unwrap(), None);
             assert_eq!(solution, case.1);
         }
     }
 
     #[test]
     fn part_2() {
-        let cases: Vec<(Data, &str)> = vec![
-            (Data::Test(2), "3"),
-            (Data::Real, "260")
-        ];
+        let cases: Vec<(Data, &str)> = vec![(Data::Test(2), "3"), (Data::Real, "260")];
         for case in cases {
-            let solution =
-                crate::day7::Puzzle {}.part_2(read_input(&FakeConfig::new(7, 2, case.0)).unwrap());
+            let solution = crate::day7::Puzzle {}
+                .part_2(read_input(&FakeConfig::new(7, 2, case.0)).unwrap(), None);
             assert_eq!(solution, case.1);
         }
     }

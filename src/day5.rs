@@ -1,10 +1,12 @@
+use std::any::Any;
+
 use crate::common;
 use md5;
 
 pub struct Puzzle {}
 
 impl common::Puzzle for Puzzle {
-    fn part_1(&self, input: String) -> String {
+    fn part_1(&self, input: String, _extra_param: Option<Box<dyn Any>>) -> String {
         let mut pwd = String::new();
         let mut index = 0;
         while pwd.len() < 8 {
@@ -13,10 +15,10 @@ impl common::Puzzle for Puzzle {
                 println!("{}", pwd);
             }
             index += 1;
-        };
+        }
         pwd
     }
-    fn part_2(&self, input: String) -> String {
+    fn part_2(&self, input: String, _extra_param: Option<Box<dyn Any>>) -> String {
         let mut pwd: Vec<String> = vec!["-".to_string(); 8];
         let mut index = 0;
         while pwd.contains(&"-".to_string()) {
@@ -29,7 +31,7 @@ impl common::Puzzle for Puzzle {
                 };
             }
             index += 1;
-        };
+        }
         pwd.join("")
     }
 }
@@ -50,13 +52,10 @@ mod tests {
     #[test]
     #[ignore]
     fn part_1() {
-        let cases: Vec<(Data, &str)> = vec![
-            (Data::Test(1), "18f47a30"),
-            (Data::Real, "f77a0e6e"),
-        ];
+        let cases: Vec<(Data, &str)> = vec![(Data::Test(1), "18f47a30"), (Data::Real, "f77a0e6e")];
         for case in cases {
-            let solution =
-                crate::day5::Puzzle {}.part_1(read_input(&FakeConfig::new(5, 1, case.0)).unwrap());
+            let solution = crate::day5::Puzzle {}
+                .part_1(read_input(&FakeConfig::new(5, 1, case.0)).unwrap(), None);
             assert_eq!(solution, case.1);
         }
     }
@@ -64,13 +63,10 @@ mod tests {
     #[test]
     #[ignore]
     fn part_2() {
-        let cases: Vec<(Data, &str)> = vec![
-            (Data::Test(1), "05ace8e3"),
-            (Data::Real, "999828ec"),
-        ];
+        let cases: Vec<(Data, &str)> = vec![(Data::Test(1), "05ace8e3"), (Data::Real, "999828ec")];
         for case in cases {
-            let solution =
-                crate::day5::Puzzle {}.part_2(read_input(&FakeConfig::new(5, 2, case.0)).unwrap());
+            let solution = crate::day5::Puzzle {}
+                .part_2(read_input(&FakeConfig::new(5, 2, case.0)).unwrap(), None);
             assert_eq!(solution, case.1);
         }
     }

@@ -1,14 +1,14 @@
-use std::collections::HashMap;
+use std::{any::Any, collections::HashMap};
 
 use crate::common;
 
 pub struct Puzzle {}
 
 impl common::Puzzle for Puzzle {
-    fn part_1(&self, input: String) -> String {
+    fn part_1(&self, input: String, _extra_param: Option<Box<dyn Any>>) -> String {
         get_most_occured(create_occurence_maps(input))
     }
-    fn part_2(&self, input: String) -> String {
+    fn part_2(&self, input: String, _extra_param: Option<Box<dyn Any>>) -> String {
         get_least_occured(create_occurence_maps(input))
     }
 }
@@ -28,19 +28,25 @@ fn create_occurence_maps(input: String) -> Vec<HashMap<char, i32>> {
 }
 
 fn get_most_occured(occ: Vec<HashMap<char, i32>>) -> String {
-    occ.iter().map(|m| {
-        m.iter()
-            .max_by(|(_, a_occ), (_, b_occ)| a_occ.cmp(b_occ))
-            .map(|(c, _)| c).unwrap()
-    }).collect()
+    occ.iter()
+        .map(|m| {
+            m.iter()
+                .max_by(|(_, a_occ), (_, b_occ)| a_occ.cmp(b_occ))
+                .map(|(c, _)| c)
+                .unwrap()
+        })
+        .collect()
 }
 
 fn get_least_occured(occ: Vec<HashMap<char, i32>>) -> String {
-    occ.iter().map(|m| {
-        m.iter()
-            .min_by(|(_, a_occ), (_, b_occ)| a_occ.cmp(b_occ))
-            .map(|(c, _)| c).unwrap()
-    }).collect()
+    occ.iter()
+        .map(|m| {
+            m.iter()
+                .min_by(|(_, a_occ), (_, b_occ)| a_occ.cmp(b_occ))
+                .map(|(c, _)| c)
+                .unwrap()
+        })
+        .collect()
 }
 
 #[cfg(test)]
@@ -50,26 +56,20 @@ mod tests {
 
     #[test]
     fn part_1() {
-        let cases: Vec<(Data, &str)> = vec![
-            (Data::Test(1), "easter"),
-            (Data::Real, "xdkzukcf"),
-        ];
+        let cases: Vec<(Data, &str)> = vec![(Data::Test(1), "easter"), (Data::Real, "xdkzukcf")];
         for case in cases {
-            let solution =
-                crate::day6::Puzzle {}.part_1(read_input(&FakeConfig::new(6, 1, case.0)).unwrap());
+            let solution = crate::day6::Puzzle {}
+                .part_1(read_input(&FakeConfig::new(6, 1, case.0)).unwrap(), None);
             assert_eq!(solution, case.1);
         }
     }
 
     #[test]
     fn part_2() {
-        let cases: Vec<(Data, &str)> = vec![
-            (Data::Test(1), "advent"),
-            (Data::Real, "cevsgyvd"),
-        ];
+        let cases: Vec<(Data, &str)> = vec![(Data::Test(1), "advent"), (Data::Real, "cevsgyvd")];
         for case in cases {
-            let solution =
-                crate::day6::Puzzle {}.part_2(read_input(&FakeConfig::new(6, 2, case.0)).unwrap());
+            let solution = crate::day6::Puzzle {}
+                .part_2(read_input(&FakeConfig::new(6, 2, case.0)).unwrap(), None);
             assert_eq!(solution, case.1);
         }
     }

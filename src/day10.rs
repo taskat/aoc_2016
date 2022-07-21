@@ -1,15 +1,15 @@
-use std::{collections::HashMap, fmt::Debug};
+use std::{collections::HashMap, fmt::Debug, any::Any};
 
 use crate::common;
 
 pub struct Puzzle {}
 
 impl common::Puzzle for Puzzle {
-    fn part_1(&self, input: String) -> String {
+    fn part_1(&self, input: String, _extra_param: Option<Box<dyn Any>>) -> String {
         let mut factory = Factory::new(input);
         factory.work([61, 17]).unwrap().to_string()
     }
-    fn part_2(&self, input: String) -> String {
+    fn part_2(&self, input: String, _extra_param: Option<Box<dyn Any>>) -> String {
         let mut factory = Factory::new(input);
         factory.work([-1, -1]);
         let mut product = 1;
@@ -269,7 +269,7 @@ mod tests {
         let cases: Vec<(Data, &str)> = vec![];
         for case in cases {
             let solution = crate::day10::Puzzle {}
-                .part_1(read_input(&FakeConfig::new(10, 1, case.0)).unwrap());
+                .part_1(read_input(&FakeConfig::new(10, 1, case.0)).unwrap(), None);
             assert_eq!(solution, case.1);
         }
     }
@@ -279,7 +279,7 @@ mod tests {
         let cases: Vec<(Data, &str)> = vec![];
         for case in cases {
             let solution = crate::day10::Puzzle {}
-                .part_2(read_input(&FakeConfig::new(10, 2, case.0)).unwrap());
+                .part_2(read_input(&FakeConfig::new(10, 2, case.0)).unwrap(), None);
             assert_eq!(solution, case.1);
         }
     }

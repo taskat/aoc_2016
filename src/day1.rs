@@ -1,11 +1,11 @@
-use std::{collections::HashMap, fmt::Display};
+use std::{any::Any, collections::HashMap, fmt::Display};
 
 use crate::common;
 
 pub struct Puzzle {}
 
 impl common::Puzzle for Puzzle {
-    fn part_1(&self, input: String) -> String {
+    fn part_1(&self, input: String, _extra_param: Option<Box<dyn Any>>) -> String {
         let instructions = create_instructions(input);
         let mut me = Me::new();
         for instruction in instructions {
@@ -14,7 +14,7 @@ impl common::Puzzle for Puzzle {
         me.pos.distance().to_string()
     }
 
-    fn part_2(&self, input: String) -> String {
+    fn part_2(&self, input: String, _extra_param: Option<Box<dyn Any>>) -> String {
         let instructions = create_instructions(input);
         let mut me = Me::new();
         for instruction in instructions {
@@ -177,8 +177,8 @@ mod tests {
             (Data::Real, "209"),
         ];
         for case in cases {
-            let solution =
-                crate::day1::Puzzle {}.part_1(read_input(&FakeConfig::new(1, 1, case.0)).unwrap());
+            let solution = crate::day1::Puzzle {}
+                .part_1(read_input(&FakeConfig::new(1, 1, case.0)).unwrap(), None);
             assert_eq!(solution, case.1);
         }
     }
@@ -187,8 +187,8 @@ mod tests {
     fn part_2() {
         let cases = vec![(Data::Test(3), "4"), (Data::Real, "136")];
         for case in cases {
-            let solution =
-                crate::day1::Puzzle {}.part_2(read_input(&FakeConfig::new(1, 2, case.0)).unwrap());
+            let solution = crate::day1::Puzzle {}
+                .part_2(read_input(&FakeConfig::new(1, 2, case.0)).unwrap(), None);
             assert_eq!(solution, case.1);
         }
     }

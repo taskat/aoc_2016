@@ -1,12 +1,14 @@
+use std::any::Any;
+
 use crate::common;
 
 pub struct Puzzle {}
 
 impl common::Puzzle for Puzzle {
-    fn part_1(&self, _input: String) -> String {
+    fn part_1(&self, _input: String, _extra_param: Option<Box<dyn Any>>) -> String {
         String::new()
     }
-    fn part_2(&self, _input: String) -> String {
+    fn part_2(&self, _input: String, _extra_param: Option<Box<dyn Any>>) -> String {
         String::new()
     }
 }
@@ -20,8 +22,8 @@ mod tests {
     fn part_1() {
         let cases: Vec<(Data, &str)> = vec![];
         for case in cases {
-            let solution =
-                crate::day__::Puzzle {}.part_1(read_input(&FakeConfig::new(__, 1, case.0)).unwrap());
+            let solution = crate::day__::Puzzle {}
+                .part_1(read_input(&FakeConfig::new(__, 1, case.0)).unwrap(), None);
             assert_eq!(solution, case.1);
         }
     }
@@ -30,8 +32,8 @@ mod tests {
     fn part_2() {
         let cases: Vec<(Data, &str)> = vec![];
         for case in cases {
-            let solution =
-                crate::day__::Puzzle {}.part_2(read_input(&FakeConfig::new(__, 2, case.0)).unwrap());
+            let solution = crate::day__::Puzzle {}
+                .part_2(read_input(&FakeConfig::new(__, 2, case.0)).unwrap(), None);
             assert_eq!(solution, case.1);
         }
     }

@@ -1,14 +1,16 @@
+use std::any::Any;
+
 use crate::common;
 
 pub struct Puzzle {}
 
 impl common::Puzzle for Puzzle {
-    fn part_1(&self, input: String) -> String {
+    fn part_1(&self, input: String, _extra_param: Option<Box<dyn Any>>) -> String {
         let triangles = create_triangles_by_row(input);
         let solution = count_valid(triangles);
         format! {"{}", solution}
     }
-    fn part_2(&self, input: String) -> String {
+    fn part_2(&self, input: String, _extra_param: Option<Box<dyn Any>>) -> String {
         let triangles = create_triangles_by_col(input);
         let solution = count_valid(triangles);
         format! {"{}", solution}
@@ -89,8 +91,8 @@ mod tests {
             (Data::Real, "1050"),
         ];
         for case in cases {
-            let solution =
-                crate::day3::Puzzle {}.part_1(read_input(&FakeConfig::new(3, 1, case.0)).unwrap());
+            let solution = crate::day3::Puzzle {}
+                .part_1(read_input(&FakeConfig::new(3, 1, case.0)).unwrap(), None);
             assert_eq!(solution, case.1);
         }
     }
@@ -99,8 +101,8 @@ mod tests {
     fn part_2() {
         let cases: Vec<(Data, &str)> = vec![(Data::Real, "1921")];
         for case in cases {
-            let solution =
-                crate::day3::Puzzle {}.part_2(read_input(&FakeConfig::new(3, 2, case.0)).unwrap());
+            let solution = crate::day3::Puzzle {}
+                .part_2(read_input(&FakeConfig::new(3, 2, case.0)).unwrap(), None);
             assert_eq!(solution, case.1);
         }
     }

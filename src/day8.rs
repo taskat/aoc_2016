@@ -1,11 +1,11 @@
-use std::fmt::Display;
+use std::{any::Any, fmt::Display};
 
 use crate::common;
 
 pub struct Puzzle {}
 
 impl common::Puzzle for Puzzle {
-    fn part_1(&self, input: String) -> String {
+    fn part_1(&self, input: String, _extra_param: Option<Box<dyn Any>>) -> String {
         let mut screen = Screen::new(6, 50);
         let instructions = create_instructions(input);
         for instruction in instructions {
@@ -13,7 +13,7 @@ impl common::Puzzle for Puzzle {
         }
         screen.count().to_string()
     }
-    fn part_2(&self, input: String) -> String {
+    fn part_2(&self, input: String, _extra_param: Option<Box<dyn Any>>) -> String {
         let mut screen = Screen::new(6, 50);
         let instructions = create_instructions(input);
         for instruction in instructions {
@@ -183,13 +183,10 @@ mod tests {
 
     #[test]
     fn part_1() {
-        let cases: Vec<(Data, &str)> = vec![
-            (Data::Test(1), "6"),
-            (Data::Real, "116")
-        ];
+        let cases: Vec<(Data, &str)> = vec![(Data::Test(1), "6"), (Data::Real, "116")];
         for case in cases {
-            let solution =
-                crate::day8::Puzzle {}.part_1(read_input(&FakeConfig::new(8, 1, case.0)).unwrap());
+            let solution = crate::day8::Puzzle {}
+                .part_1(read_input(&FakeConfig::new(8, 1, case.0)).unwrap(), None);
             assert_eq!(solution, case.1);
         }
     }
@@ -198,8 +195,8 @@ mod tests {
     fn part_2() {
         let cases: Vec<(Data, &str)> = vec![];
         for case in cases {
-            let solution =
-                crate::day8::Puzzle {}.part_2(read_input(&FakeConfig::new(8, 2, case.0)).unwrap());
+            let solution = crate::day8::Puzzle {}
+                .part_2(read_input(&FakeConfig::new(8, 2, case.0)).unwrap(), None);
             assert_eq!(solution, case.1);
         }
     }

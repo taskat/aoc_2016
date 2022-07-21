@@ -1,11 +1,11 @@
-use std::collections::HashMap;
+use std::{any::Any, collections::HashMap};
 
 use crate::common;
 
 pub struct Puzzle {}
 
 impl common::Puzzle for Puzzle {
-    fn part_1(&self, input: String) -> String {
+    fn part_1(&self, input: String, _extra_param: Option<Box<dyn Any>>) -> String {
         let rooms = create_rooms(input);
         format!(
             "{}",
@@ -17,14 +17,12 @@ impl common::Puzzle for Puzzle {
         )
     }
 
-    fn part_2(&self, input: String) -> String {
+    fn part_2(&self, input: String, _extra_param: Option<Box<dyn Any>>) -> String {
         let mut rooms = create_rooms(input);
         rooms = rooms
             .iter()
             .filter(|room| !room.is_decoy())
-            .map(|room: & Room| -> Room {
-                room.decrypt()
-            })
+            .map(|room: &Room| -> Room { room.decrypt() })
             .filter(|room| room.real_name.contains("north"))
             .collect::<Vec<Room>>();
         if let Some(room) = rooms.get(0) {
@@ -97,7 +95,12 @@ impl Room {
                 }
             }
         }
-        Room{real_name: name, encrypted_name: self.encrypted_name.clone(), id: self.id, checksum: self.checksum.clone()}
+        Room {
+            real_name: name,
+            encrypted_name: self.encrypted_name.clone(),
+            id: self.id,
+            checksum: self.checksum.clone(),
+        }
     }
 }
 
@@ -110,21 +113,18 @@ mod tests {
     fn part_1() {
         let cases: Vec<(Data, &str)> = vec![(Data::Test(1), "1514"), (Data::Real, "409147")];
         for case in cases {
-            let solution =
-                crate::day4::Puzzle {}.part_1(read_input(&FakeConfig::new(4, 1, case.0)).unwrap());
+            let solution = crate::day4::Puzzle {}
+                .part_1(read_input(&FakeConfig::new(4, 1, case.0)).unwrap(), None);
             assert_eq!(solution, case.1);
         }
     }
 
     #[test]
     fn part_2() {
-        let cases: Vec<(Data, &str)> = vec![
-            (Data::Test(2), "Not found"),
-            (Data::Real, "991"),
-        ];
+        let cases: Vec<(Data, &str)> = vec![(Data::Test(2), "Not found"), (Data::Real, "991")];
         for case in cases {
-            let solution =
-                crate::day4::Puzzle {}.part_2(read_input(&FakeConfig::new(4, 2, case.0)).unwrap());
+            let solution = crate::day4::Puzzle {}
+                .part_2(read_input(&FakeConfig::new(4, 2, case.0)).unwrap(), None);
             assert_eq!(solution, case.1);
         }
     }
