@@ -4,17 +4,27 @@ use crate::common;
 
 pub struct Puzzle {}
 
+const DEFAULT_SIZE: Size = Size{row: 6, col: 50};
+
 impl common::Puzzle for Puzzle {
-    fn part_1(&self, input: String, _extra_param: Option<Box<dyn Any>>) -> String {
-        let mut screen = Screen::new(6, 50);
+    fn part_1(&self, input: String, extra_param: Option<Box<dyn Any>>) -> String {
+        let size: Size = match extra_param {
+            Some(b) => (*b.downcast_ref::<Size>().unwrap()).clone(),
+            None => DEFAULT_SIZE,
+        };
+        let mut screen = Screen::new(size);
         let instructions = create_instructions(input);
         for instruction in instructions {
             (*instruction).execute(&mut screen);
         }
         screen.count().to_string()
     }
-    fn part_2(&self, input: String, _extra_param: Option<Box<dyn Any>>) -> String {
-        let mut screen = Screen::new(6, 50);
+    fn part_2(&self, input: String, extra_param: Option<Box<dyn Any>>) -> String {
+        let size: Size = match extra_param {
+            Some(b) => (*b.downcast_ref::<Size>().unwrap()).clone(),
+            None => DEFAULT_SIZE,
+        };
+        let mut screen = Screen::new(size);
         let instructions = create_instructions(input);
         for instruction in instructions {
             (*instruction).execute(&mut screen);
@@ -24,14 +34,20 @@ impl common::Puzzle for Puzzle {
     }
 }
 
+#[derive(Clone, Copy)]
+struct Size {
+    row: usize, 
+    col: usize
+}
+
 struct Screen {
     display: Vec<Vec<bool>>,
 }
 
 impl Screen {
-    fn new(row: usize, col: usize) -> Screen {
+    fn new(size: Size) -> Screen {
         Screen {
-            display: vec![vec![false; col]; row],
+            display: vec![vec![false; size.col]; size.row],
         }
     }
 
@@ -181,9 +197,13 @@ mod tests {
     use crate::common::common_test::FakeConfig;
     use crate::common::{read_input, Data, Puzzle};
 
+    use super::Size;
+
     #[test]
     fn part_1() {
-        let cases: Vec<(Data, &str)> = vec![(Data::Test(1), "6"), (Data::Real, "116")];
+        let cases: Vec<(Data, &str, Option<Size>)> = vec![
+            (Data::Test(1), "6", Some(Size{row: 3, col: 7})),
+            (Data::Real, "116", None)];
         for case in cases {
             let solution = crate::day8::Puzzle {}
                 .part_1(read_input(&FakeConfig::new(8, 1, case.0)).unwrap(), None);
