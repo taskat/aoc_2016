@@ -194,6 +194,8 @@ impl Instruction for RotateColumn {
 
 #[cfg(test)]
 mod tests {
+    use std::any::Any;
+
     use crate::common::common_test::FakeConfig;
     use crate::common::{read_input, Data, Puzzle};
 
@@ -201,12 +203,12 @@ mod tests {
 
     #[test]
     fn part_1() {
-        let cases: Vec<(Data, &str, Option<Size>)> = vec![
-            (Data::Test(1), "6", Some(Size{row: 3, col: 7})),
+        let cases: Vec<(Data, &str, Option<Box<dyn Any>>)> = vec![
+            (Data::Test(1), "6", Some(Box::new(Size{row: 3, col: 7}))),
             (Data::Real, "116", None)];
         for case in cases {
             let solution = crate::day8::Puzzle {}
-                .part_1(read_input(&FakeConfig::new(8, 1, case.0)).unwrap(), None);
+                .part_1(read_input(&FakeConfig::new(8, 1, case.0)).unwrap(), case.2);
             assert_eq!(solution, case.1);
         }
     }
