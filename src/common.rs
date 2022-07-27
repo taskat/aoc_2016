@@ -1,6 +1,6 @@
 use std::{env, fmt::Display, fs, io, any::Any};
 
-use crate::{day1, day2, day3, day4, day5, day6, day7, day8, day9, day10, day11};
+use crate::{day1, day2, day3, day4, day5, day6, day7, day8, day9, day10, day11, day12};
 
 #[derive(Copy, Clone)]
 pub enum Data {
@@ -114,6 +114,7 @@ pub fn solve(input: String, config: &EnvConfig) -> String {
         9 => Box::new(day9::Puzzle{}),
         10 => Box::new(day10::Puzzle{}),
         11 => Box::new(day11::Puzzle{}),
+        12 => Box::new(day12::Puzzle{}),
         n => panic!("Day {} not implemented yet", n),
     };
     match config.get_part() {

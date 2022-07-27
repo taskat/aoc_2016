@@ -291,6 +291,7 @@ mod tests {
     }
 
     #[test]
+    #[ignore]
     fn part_2() {
         let cases: Vec<(Data, &str)> = vec![
             (Data::Real, "61")
