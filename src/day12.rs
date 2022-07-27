@@ -27,7 +27,7 @@ impl common::Puzzle for Puzzle {
 }
 
 fn create_commands(input: String) -> Vec<String> {
-    input.split("\r\n").map(|command| command.to_owned()).collect::<Vec<String>>()
+    input.split("\n").map(|command| command.to_owned()).collect::<Vec<String>>()
 }
 
 struct Computer {

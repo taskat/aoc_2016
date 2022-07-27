@@ -7,14 +7,14 @@ pub struct Puzzle {}
 impl common::Puzzle for Puzzle {
     fn part_1(&self, input: String, _extra_param: Option<Box<dyn Any>>) -> String {
         input
-            .split("\r\n")
+            .split("\n")
             .filter(|line| support_tls(line))
             .count()
             .to_string()
     }
     fn part_2(&self, input: String, _extra_param: Option<Box<dyn Any>>) -> String {
         input
-            .split("\r\n")
+            .split("\n")
             .filter(|line| support_ssl(line))
             .count()
             .to_string()

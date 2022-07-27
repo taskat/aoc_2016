@@ -33,7 +33,7 @@ impl common::Puzzle for Puzzle {
 }
 
 fn create_rooms(input: String) -> Vec<Room> {
-    input.split("\r\n").map(|line| Room::new(line)).collect()
+    input.split("\n").map(|line| Room::new(line)).collect()
 }
 
 #[derive(Debug)]

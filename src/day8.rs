@@ -100,7 +100,7 @@ impl Display for Screen {
 }
 
 fn create_instructions(input: String) -> Vec<Box<dyn Instruction>> {
-    let lines = input.split("\r\n");
+    let lines = input.split("\n");
     let mut instructions: Vec<Box<dyn Instruction>> = vec![];
     for line in lines {
         if line.contains("rect") {

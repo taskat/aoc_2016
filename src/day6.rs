@@ -14,7 +14,7 @@ impl common::Puzzle for Puzzle {
 }
 
 fn create_occurence_maps(input: String) -> Vec<HashMap<char, i32>> {
-    let lines: Vec<&str> = input.split("\r\n").collect();
+    let lines: Vec<&str> = input.split("\n").collect();
     let length = lines[0].len();
     let lines = lines.iter();
     let mut result: Vec<HashMap<char, i32>> = vec![HashMap::new(); length];

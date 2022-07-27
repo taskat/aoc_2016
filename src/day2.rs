@@ -30,7 +30,7 @@ impl common::Puzzle for Puzzle {
 }
 
 fn create_lines(input: String) -> Vec<String> {
-    input.split("\r\n").map(|line| line.to_string()).collect()
+    input.split("\n").map(|line| line.to_string()).collect()
 }
 
 fn next_simple(start: i32, line: String) -> i32 {

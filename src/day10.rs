@@ -43,7 +43,7 @@ struct Factory {
 
 impl Factory {
     fn new(input: String) -> Factory {
-        let lines = input.split("\r\n");
+        let lines = input.split("\n");
         let mut f = Factory {
             outputs: HashMap::new(),
             robots: HashMap::new(),

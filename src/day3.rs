@@ -48,7 +48,7 @@ impl Triangle {
 
 fn create_triangles_by_row(input: String) -> Vec<Triangle> {
     input
-        .split("\r\n")
+        .split("\n")
         .map(|line| Triangle::from(line))
         .collect()
 }
@@ -63,7 +63,7 @@ fn break_into_parts(line: Option<&str>) -> Vec<i32> {
 }
 
 fn create_triangles_by_col(input: String) -> Vec<Triangle> {
-    let mut lines = input.split("\r\n");
+    let mut lines = input.split("\n");
     let mut triangles = vec![];
     while let Some(first) = lines.next() {
         let second = lines.next();

@@ -51,7 +51,7 @@ impl Hash for Area {
 impl Area {
     fn new(input: String) -> Area {
         let mut pairs: HashMap<String, CGPair> = HashMap::new();
-        for (i, line) in input.split("\r\n").enumerate() {
+        for (i, line) in input.split("\n").enumerate() {
             let mut words = line.split(' ').rev();
             while let Some(word) = words.next() {
                 match word {
