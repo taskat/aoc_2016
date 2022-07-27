@@ -27,13 +27,14 @@ pub struct EnvConfig {
     day: i32,
     part: i32,
     data_type: Data,
+    extra: Option<Box<dyn Any>>
 }
 
 impl EnvConfig {
     pub fn new() -> Result<EnvConfig, String> {
         let args: Vec<String> = env::args().collect();
-        if args.len() != 4 {
-            return Err(String::from("Invalid number of arguments, wanted 4, got ")
+        if args.len() < 4 {
+            return Err(String::from("Invalid number of arguments, wanted >=4, got ")
                 + args.len().to_string().as_str());
         }
         let day = match args[1].parse::<i32>() {
@@ -65,10 +66,15 @@ impl EnvConfig {
                 Err(e) => return Err(String::from("Fourth parameter must be 'real' or i32: ") + e.to_string().as_str())
             }
         };
+        let mut extra: Option<Box<dyn Any>> = None;
+        if args.len() > 4 {
+            extra = Some(Box::new(args[4..].join(" ")))
+        }
         Ok(EnvConfig {
-            day: day,
-            part: part,
+            day,
+            part,
             data_type: data,
+            extra
         })
     }
 }
@@ -101,7 +107,7 @@ pub trait Puzzle {
     fn part_2(&self, input: String, extra_param: Option<Box<dyn Any>>) -> String;
 }
 
-pub fn solve(input: String, config: &EnvConfig) -> String {
+pub fn solve(input: String, config: EnvConfig) -> String {
     let solver: Box<dyn Puzzle> = match config.day {
         1 => Box::new(day1::Puzzle{}),
         2 => Box::new(day2::Puzzle{}),
@@ -119,8 +125,8 @@ pub fn solve(input: String, config: &EnvConfig) -> String {
         n => panic!("Day {} not implemented yet", n),
     };
     match config.get_part() {
-        1 => solver.part_1(input, None),
-        2 => solver.part_2(input, None),
+        1 => solver.part_1(input, config.extra),
+        2 => solver.part_2(input, config.extra),
         p => panic!("Invalid part {}", p)
     }
 }

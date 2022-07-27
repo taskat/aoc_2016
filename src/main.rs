@@ -28,6 +28,7 @@ fn main() {
         println!("Cannot read input file: {}", err);
         process::exit(1);
     });
-    let solution = common::solve(input, &config);
-    println!("The solution for day {} part {} is: {}!", config.get_day(), config.get_part(), solution)
+    let msg = format!("The solution for day {} part {} is: ", config.get_day(), config.get_part());
+    let solution = common::solve(input, config);
+    println!("{}{}!", msg, solution)
 }
