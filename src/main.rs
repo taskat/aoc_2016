@@ -18,6 +18,7 @@ mod day10;
 mod day11;
 mod day12;
 mod day13;
+mod day14;
 
 fn main() {
     let config = EnvConfig::new().unwrap_or_else(|err| {
@@ -30,5 +31,5 @@ fn main() {
     });
     let msg = format!("The solution for day {} part {} is: ", config.get_day(), config.get_part());
     let solution = common::solve(input, config);
-    println!("{}{}!", msg, solution)
+    println!("{}{}!", msg, solution);
 }
