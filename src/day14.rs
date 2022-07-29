@@ -119,7 +119,7 @@ mod tests {
     #[ignore]
     fn part_2() {
         let cases: Vec<(Data, &str)> = vec![
-            (Data::Test(1), "22859"),
+            (Data::Test(1), "22551"),
             (Data::Real, "20864")
         ];
         for case in cases {
