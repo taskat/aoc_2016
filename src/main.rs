@@ -24,6 +24,7 @@ mod day16;
 mod day17;
 mod day18;
 mod day19;
+mod day20;
 
 fn main() {
     let config = EnvConfig::new().unwrap_or_else(|err| {
