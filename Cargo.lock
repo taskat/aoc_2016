@@ -6,6 +6,7 @@ version = 3
 name = "aoc_2016"
 version = "0.1.0"
 dependencies = [
+ "itertools 0.10.5",
  "md5",
  "pathfinding",
 ]
@@ -44,6 +45,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "itertools"
+version = "0.10.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b0fd2260e829bddf4cb6ea802289de2f86d6a7a690192fbe91b3f46e0f2c8473"
+dependencies = [
+ "either",
+]
+
+[[package]]
 name = "md5"
 version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -66,6 +76,6 @@ checksum = "fe47274935f467cd8493ca45b5f170be2b435d8ee58b8f1845e0035898781108"
 dependencies = [
  "fixedbitset",
  "indexmap",
- "itertools",
+ "itertools 0.7.11",
  "num-traits",
 ]
